@@ -21,14 +21,14 @@ export default class Block {
         this.timestamp = Date.now();
         this.previousHash = previousHash;
         this.data = data;
-        this.hash = this.getHash();
+        this.hash = this.createHash();
     }
 
     /**
      * Generates the block hash
      * @returns Returns the block hash
      */
-    getHash() : string {
+    createHash() : string {
         return sha256(this.index + this.data + this.timestamp + this.previousHash).toString();
     }
 
@@ -36,11 +36,11 @@ export default class Block {
      * Validates the block
      * @returns Returns true if block is valid
      */
-    isValid() : boolean {
-        if(this.index < 0) return false;
-        if(!this.hash) return false;
+    isValid(previousHash: string, previousIndex: number) : boolean {
+        if(previousIndex !== this.index -1) return false;
+        if(this.hash !== this.createHash()) return false;
         if(!this.data) return false;
-        if(!this.previousHash) return false;
+        if(this.previousHash !== previousHash) return false;
         if(this.timestamp < 1) return false;
 
         return true;
