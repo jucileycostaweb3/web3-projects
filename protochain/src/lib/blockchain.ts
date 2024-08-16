@@ -43,6 +43,15 @@ export default class Blockchain {
     }
 
     /**
+     * Get block by hash
+     * @param hash the block hash
+     * @returns Returns if the block exists by hash
+     */
+    getBlock(hash: string): Block | undefined {
+        return this.blocks.find(b => b.hash === hash);
+    }
+
+    /**
      * Checks if the blockchain is valid
      * @returns Returns if blockchain is valid
      */
